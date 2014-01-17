@@ -38,28 +38,29 @@ int interfaceLoop( char *mapString, int debugOption )
 
 	while ( ( inputCode = getInput(&itemCode) ) )
 	{
-		if ( inputCode == 1 ){
-			printf( "GO FORWARD\n" ) ; /* TEMP */
-		} else if ( inputCode == 2   ){
-			printf( "GO BACKWARD\n" ) ;
-		} else if ( inputCode == 3   ){
-			printf( "GO LEFT\n" ) ;
-		} else if ( inputCode == 4   ){
-			printf( "GO RIGHT\n" ) ;
-		} else if ( inputCode == 5   ){
-			printf( "GO TAKE\n" ) ;
-		} else if ( inputCode == 6   ){
-			printf( "GO TALK\n" ) ;
-		} else if ( inputCode == 7   ){
-			printf( "SWAG TO THE #YOLO INFINITY\n" ) ;
-		} else if ( inputCode == 666 )
-			printf("input not recognized\n");
+		switch ( inputCode ) {
+			case 1:
+				printf( "GO FORWARD\n" ) ; /* TEMP */
+			case 2:
+				printf( "GO BACKWARD\n" ) ;
+			case 3:
+				printf( "GO LEFT\n" ) ;
+			case 4:
+				printf( "GO RIGHT\n" ) ;
+			case 5:
+				printf( "TAKING SOMETHING\n" ) ;
+			case 6:
+				printf( "TALKING THE TALK\n" ) ;
+			case 7:
+				printf( "SWAG TO THE #YOLO INFINITY\n" ) ;
+			case 666:
+				printf("input not recognized\n");
+		}
 	}
 
 	printf( "GAME ENDED BY USER\n\n\n" );
 
 	return 0 ;
-
 
 }
 
