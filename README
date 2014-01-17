@@ -1,13 +1,11 @@
-CUBE CRAWLER PROGRAM
-
-
-This is a simple game that allows you to explore the surfaces of a cube. The surfaces of this cube will be littered with traps and the like, so be careful.
+This is a simple game that allows you to explore a world. 
+The surface of this world will be littered with traps and the like, so be careful.
 
 Parts:
 
 1) Interface
-	Top set of numbers is your current location on the cube, followed by the cube's dimensions.
-	Next, any items or creatures will be listed. 
+	Top set of numbers/text is your current location.
+	Next, the map and any items or creatures will be shown. 
 	Finally, your inventory/stats will be displayed.
 
 2) Creatures
