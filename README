@@ -1,0 +1,28 @@
+CUBE CRAWLER PROGRAM
+
+
+This is a simple game that allows you to explore the surfaces of a cube. The surfaces of this cube will be littered with traps and the like, so be careful.
+
+Parts:
+
+1) Interface
+	Top set of numbers is your current location on the cube, followed by the cube's dimensions.
+	Next, any items or creatures will be listed. 
+	Finally, your inventory/stats will be displayed.
+
+2) Creatures
+	TBD
+
+3) Items
+	TBD (win case)
+
+4) Controls 
+	f OR forward  followed by <ENTER> to go forward
+	b OR backward followed by <ENTER> to go backward
+	l OR left     followed by <ENTER> to go left
+	r OR right    followed by <ENTER> to go right
+
+	t OR take     followed by <ENTER> to take item
+	e OR talk     followed by <ENTER> to talk to creature
+
+	q OR quit     followed by <ENTER? to quit game
