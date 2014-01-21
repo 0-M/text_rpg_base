@@ -6,20 +6,35 @@ CC=gcc
 
 DBGFLAGS= -ggdb3
 
-WARNINGS= -Wall
+WARNINGS= -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith \
+        -Wcast-align -Wstrict-overflow=5 -Wwrite-strings \
+        -Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum \
+        -Wconversion -Wunreachable-code -Wformat=2 -Winit-self \
+        -Wuninitialized -Werror-implicit-function-declaration
 
-CFLAGS= $(WARNINGS) -ansi -pedantic \
+INCLUDE= -I .
+
+CFLAGS= $(WARNINGS) -ansi -pedantic -c \
 	$(DBGFLAGS)
 
-OBJS= user_interface.o
+LDFLAGS=
+
+SOURCES= main.c map.c user_interface.c world.c
+
+OBJS= $(SOURCES:.c=.o)
 
 EXEC= main
 
-$(EXEC): main.c user_interface.o
-	$(CC) $(CFLAGS) main.c user_interface.o -o $@
+all: $(SOURCES) $(EXEC)
 
-user_interface.o: user_interface.h user_interface.c
-	$(CC) $(CFLAGS) -c user_interface.c
+$(EXEC): $(OBJS)
+	$(CC) $(LDFLAGS) $(OBJS) -o $@
+
+.c.o: 
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
 
 clean:
-	rm -f $(EXEC) $(OBJS) *.o *~ 
+	rm -f $(EXEC)
+	rm -f $(OBJS) 
+	rm -f *.o
+	rm -f *~ 

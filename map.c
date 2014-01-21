@@ -1,26 +1,43 @@
+#include <map.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <inttypes.h>
 
 char **mapLoad( char *mapName )
 {
-	char *mapName;
-	char **charMap;
-	int mapHeight, mapWidth;
+	uint64_t i = 0;
 
-	map = mapName
-	if (fopen(map, r) == NULL) {
-		printf("\n\nMAP FAILED TO LOAD\n\n");
-		return NULL ; }
-
-	/* Get height and width from map data file */
-	fscanf( "%d\n%d" , map , mapHeight , mapWidth ) ;
+	char *map = NULL;
+	char **charMap = NULL;
+	uint64_t mapHeight = 0, mapWidth = 0;
 	
-	charMap = malloc( sizeof ( char * ) * mapHeight ) ; /* rows */
+	FILE *mapFilePtr = NULL;
+
+	map = mapName;
+	
+	mapFilePtr = fopen(map, "r");
+
+	if (mapFilePtr == NULL) {
+		printf("\n\nERROR: MAP FAILED TO LOAD\n\n");
+		fflush(stdout);
+		return NULL ; 
+	}
+	
+	/* Get height and width from map data file */
+
+	fscanf( mapFilePtr , "%lu\n%lu", &mapHeight, &mapWidth ) ;
+
+	/* Malloc double array for map length */
+
+	charMap = (char **) malloc( sizeof ( char * ) * mapHeight ) ; /* rows */
 
 	for (i = 0 ; i < mapHeight ; i++ ) {
 		charMap[i] = malloc( sizeof ( char ) * mapWidth ) ; /* cols */
- 		fscanf( "%s" , map , charMap[i] ) ;
+ 		fscanf( mapFilePtr, "%s" , charMap[i] ) ;
 	}
 
-	fclose( map ) ;
+	fclose( mapFilePtr ) ;
 
 	return charMap ;
 }
