@@ -1,3 +1,6 @@
+#ifndef __WORLD_H__
+#define __WORLD_H__
+
 /* main API for the displayed world */
 
 #include "map.h"
@@ -9,5 +12,6 @@ typedef struct S_WORLD {
 	char **players  ;
 } world ; 
 
-void worldInit( char *mapString , world *WORLD ) ;
+int worldInit( char *mapString , world *WORLD ) ;
 
+#endif

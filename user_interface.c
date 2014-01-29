@@ -8,10 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #define MAX_INPUT_WORDS 10
 
-void upperString( char buffer[] ) ;
+int upperString( char buffer[] ) ;
 int  getInput   ( int *item     ) ;
 int inputToWords( char *buffers[], int inputLength ) ;
 
@@ -19,7 +20,7 @@ int inputToWords( char *buffers[], int inputLength ) ;
 int interfaceLoop( char *mapString, int debugOption )
 {
 	int inputCode, itemCode;
-	/*world WORLD ; */
+	/*World WORLD ; */
 	
 	/***************************/
 	/* CODE TABLE - inputCode  */
@@ -39,22 +40,34 @@ int interfaceLoop( char *mapString, int debugOption )
 	while ( ( inputCode = getInput(&itemCode) ) )
 	{
 		switch ( inputCode ) {
-			case 1:
-				printf( "GO FORWARD\n" ) ; /* TEMP */
-			case 2:
-				printf( "GO BACKWARD\n" ) ;
-			case 3:
-				printf( "GO LEFT\n" ) ;
-			case 4:
-				printf( "GO RIGHT\n" ) ;
-			case 5:
-				printf( "TAKING SOMETHING\n" ) ;
-			case 6:
-				printf( "TALKING THE TALK\n" ) ;
-			case 7:
-				printf( "SWAG TO THE #YOLO INFINITY\n" ) ;
-			case 666:
-				printf("input not recognized\n");
+		case 1:
+			printf( "GO FORWARD\n" ) ; /* TEMP */
+			break;
+		case 2:
+			printf( "GO BACKWARD\n" ) ;
+			break;
+		case 3:
+			printf( "GO LEFT\n" ) ;
+			break;
+		case 4:
+			printf( "GO RIGHT\n" ) ;
+			break;
+		case 5:
+			printf( "TAKING SOMETHING\n" ) ;
+			break;
+		case 6:
+			printf( "TALKING THE TALK\n" ) ;
+			break;
+		case 7:
+			printf( "SWAG TO THE #YOLO INFINITY\n" ) ;
+			break;
+		case 666:
+			printf("input not recognized\n");
+			break;
+		default:
+			printf("shouldnt have gotten here. "
+			       "default case line %d", __LINE__);
+			
 		}
 	}
 
@@ -66,7 +79,9 @@ int interfaceLoop( char *mapString, int debugOption )
 
 int getInput( int *item )
 {
-	int i, buffLength, numWords, returnCode = -1 ;
+	int returnCode = -1 ;
+	uint32_t i, numWords;
+	size_t buffLength;
 	char *buffers[MAX_INPUT_WORDS] ;
 	
 	buffers[0] = malloc( sizeof (char) * BUFSIZ ) ;
@@ -76,7 +91,7 @@ int getInput( int *item )
 	fgets( buffers[0] , BUFSIZ , stdin ) ;
 	buffLength = strlen( buffers[0] ) ;
 	
-	printf( "DEBUG DATA: main input buffer: %s\nbuffer length: %d \n\n",
+	printf( "DEBUG DATA: main input buffer: %s\nbuffer length: %lu \n\n",
 		buffers[0], buffLength ) ;
 
 	/* clear newline*/
@@ -87,6 +102,7 @@ int getInput( int *item )
 	/* turn input into individual words */
 	numWords = inputToWords( buffers, buffLength );
 	printf("number of words = %d\n\n", numWords);
+
 	/* convert strings to uppercase */
 	for ( i = 1 ; i <= numWords ; i++ ){
 		upperString(buffers[i]);
@@ -94,30 +110,40 @@ int getInput( int *item )
 	}
 
 	if (numWords == 1) {
+
 		/* QUIT */
+
 		if (!(strncmp(buffers[1], "Q", BUFSIZ))
 	   	 || !(strncmp(buffers[1], "QUIT", BUFSIZ)))
 		{
 			returnCode = 0 ;  
+
 		/* FORWARD */
+
 		} else if
 		   ( !(strncmp(buffers[1], "W", BUFSIZ))
 		  || !(strncmp(buffers[1], "FORWARD", BUFSIZ)))
 		{
 			returnCode = 1 ;
+
 		/* BACKWARD */
+
 		} else if
 		   ( !(strncmp(buffers[1], "S", BUFSIZ))
 		  || !(strncmp(buffers[1], "BACKWARD", BUFSIZ)))
 		{
 			returnCode = 2 ;
+
 		/* LEFT */
+
 		} else if
 		   ( !(strncmp(buffers[1], "A", BUFSIZ))
 		  || !(strncmp(buffers[1], "LEFT", BUFSIZ)))
 		{
 			returnCode = 3 ;
+
 		/* RIGHT */
+
 		} else if
 		   ( !(strncmp(buffers[1], "D", BUFSIZ))
 		  || !(strncmp(buffers[1], "RIGHT", BUFSIZ)))
@@ -127,18 +153,24 @@ int getInput( int *item )
 			returnCode = 666;
 		} 
 	} else if (numWords == 2) {
+
 		/* TAKE */
+
 		if ( !(strncmp(buffers[1], "T", BUFSIZ))
 		  || !(strncmp(buffers[1], "TAKE", BUFSIZ)))
 		{
 			returnCode = 5 ;
+
 		/* TALK */
+
 		} else if
 		   ( !(strncmp(buffers[1], "E", BUFSIZ))
 		  || !(strncmp(buffers[1], "TALK", BUFSIZ)))
 		{
 			returnCode = 6 ;
+
 		/* SWAG */
+
 		} else if
 		   (( !(strncmp(buffers[1], "SWAG", BUFSIZ))
 		  || !(strncmp(buffers[1], "BASED", BUFSIZ))
@@ -148,12 +180,16 @@ int getInput( int *item )
 		  || !(strncmp(buffers[2], "MONEY", BUFSIZ)))))
 		{
 			returnCode = 7 ;
+
 		/* UNRECOGNIZED INPUT */
+
 		} else {
 			returnCode = 666 ;
 		}
 	} else {
+
 		/*0 or 3+ inputs*/
+
 		returnCode = 666;
 	}
 
@@ -204,12 +240,17 @@ int inputToWords( char *buffers[], int inputLength )
 	return wordCount ; 
 }
 
-void upperString( char buffer[] )
+int upperString( char buffer[] )
 {
 	int i; 
 
+	if(buffer == NULL)
+		return -1;
+
 	for ( i = 0 ; buffer[i] != '\0' ; i++ )
 		buffer[i] = toupper( buffer[i] );
+
+	return 0;
 }
 
 
