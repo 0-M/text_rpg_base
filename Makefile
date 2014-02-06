@@ -14,7 +14,7 @@ WARNINGS= -Wall -Wextra -Wfloat-equal -Wundef -Wshadow -Wpointer-arith \
 
 INCLUDE= -I .
 
-CFLAGS= $(WARNINGS) -ansi -pedantic -c \
+CFLAGS= $(WARNINGS) -std=c11 -pedantic -c \
 	$(DBGFLAGS)
 
 LDFLAGS=

@@ -11,7 +11,7 @@ int worldInit( char *mapString, world *WORLD )
 		return -1;
 	}
 
-	if(WORLD = NULL){
+	if(WORLD == NULL){
 
 		printf("%s:%d: in worldInit: WORLD is NULL\n",
 		       __FILE__, __LINE__);

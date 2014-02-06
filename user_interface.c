@@ -17,7 +17,7 @@ int  getInput   ( int *item     ) ;
 int inputToWords( char *buffers[], int inputLength ) ;
 
 
-int interfaceLoop( char *mapString, int debugOption )
+int interfaceLoop()
 {
 	int inputCode, itemCode;
 	/*World WORLD ; */
@@ -80,7 +80,7 @@ int interfaceLoop( char *mapString, int debugOption )
 int getInput( int *item )
 {
 	int returnCode = -1 ;
-	uint32_t i, numWords;
+	int i, numWords;
 	size_t buffLength;
 	char *buffers[MAX_INPUT_WORDS] ;
 	
@@ -248,7 +248,7 @@ int upperString( char buffer[] )
 		return -1;
 
 	for ( i = 0 ; buffer[i] != '\0' ; i++ )
-		buffer[i] = toupper( buffer[i] );
+		buffer[i] = (char) toupper( buffer[i] );
 
 	return 0;
 }
