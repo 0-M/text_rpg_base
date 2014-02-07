@@ -34,12 +34,20 @@ extern int mapZeroize( map m ) ;
 
 extern int mapIsInitted( map m ) ;
 
-/* Pass mapLoad() the name of a file where a map is stored */
+/*
+ * Pass mapLoad() the name of a file where a map is stored
+ * 
+ *
+ * */
 
 extern int mapLoad( map m, const char *fileName ) ;
 
 extern int mapSave( map m, const char *fileName ) ;
 
+/*
+ * mapCopy() creates a completely new map object which with separate pointers
+ * so deleting one will not muck up another
+ */
 
 extern int mapCopy( map dest, map src ) ;
 
@@ -49,7 +57,9 @@ extern int mapWidth( map m, size_t *w ) ;
 
 extern int mapHeight( map m, size_t *h ) ;
 
-extern int mapName( map m, char *n ) ;
+/* mapName() sets *n to point to a copy of the internal name of the map */
+
+extern int mapName( map m, char **str_ptr ) ;
 
 extern int mapNameLen(map m, size_t *nameLen ) ;
 

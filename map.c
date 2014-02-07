@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct map_s {
 
@@ -22,7 +23,7 @@ typedef struct map_s {
 #define H(m) (m->height)
 #define NAMELEN(m) (m->nameLen)
 
-int mapFreeInternals( map m ) ;
+int mapZeroizeFree( map m ) ;
 
 int mapLoad( map m, const char *fileName )
 {
@@ -50,7 +51,7 @@ int mapLoad( map m, const char *fileName )
 
 	if ( mapFilePtr == NULL ) {
 
-		printf("%s%d:mapLoad(): fopen failed\n",
+		printf("%s:%d:mapLoad(): fopen failed\n",
 		       __FILE__, __LINE__ ) ;
 		fflush(stdout);
 		return -1 ; 
@@ -87,7 +88,7 @@ int mapInit( map *m )
 		return -1;
 	}
 
-	*m = ( (map) malloc( sizeof( map ) ) ) ;
+	*m = ( (map) malloc( sizeof( map_s ) ) ) ;
 
 	rc = mapZeroize( *m ) ;
 
@@ -117,7 +118,7 @@ int mapDelete( map m )
 		return 1;
 	}
 
-	rc = mapFreeInternals( m ) ;
+	rc = mapZeroizeFree( m ) ;
 
 	if( rc != 0 ) {
 		
@@ -143,7 +144,7 @@ int mapDelete( map m )
 	return 0;
 }
 
-int mapFreeInternals( map m )
+int mapZeroizeFree( map m )
 {
 	size_t i;
 
@@ -158,13 +159,23 @@ int mapFreeInternals( map m )
 
 	free( NAME(m) ) ;
 
+	NAMELEN(m) = 0 ;
+
+	NAME(m) = NULL ;
+
 	for( i = 0; i < H(m) ; ++i ) {
 		free( THEMAP(m) [i] ) ;
 	}
 
 	free( THEMAP(m) ) ;
 
-	return 0;
+	THEMAP(m) = NULL ;
+
+	H(m) = 0 ;
+
+	W(m) = 0 ;
+
+	return 0 ;
 }
 
 int mapZeroize( map m ) 
@@ -172,9 +183,9 @@ int mapZeroize( map m )
 	if( m == NULL ) {
 
 		printf("ERROR:%s:%d:mapZeroize(): was passed a null ptr\n",
-		       __FILE__, __LINE__) ;
-		fflush(stdout);
-		return -1;
+		       __FILE__, __LINE__ ) ;
+		fflush( stdout ) ;
+		return -1 ;
 	}
 
 	W(m) = 0 ;
@@ -205,6 +216,87 @@ int mapPrint( map m )
 
 		printf("%s\n", THEMAP(m)[i] ) ;
 	}
+
+	return 0;
+}
+
+int mapNameLen( map m, size_t *nameLen )
+{
+	if( m == NULL)
+	{
+		printf("%s:%d:mapNameLen(): passed a null ptr\n",
+		       __FILE__, __LINE__);
+		fflush(stdout);
+		return -1;
+	}
+
+	*nameLen = NAMELEN(m);
+
+	return 0;
+}
+
+int mapWidth( map m, size_t *w )
+{
+	if( m == NULL)
+	{
+		printf("%s:%d:mapNameLen(): passed a null ptr\n",
+		       __FILE__, __LINE__);
+		fflush(stdout);
+		return -1;
+	}
+
+	*w = W(m);
+
+	return 0;
+}
+
+int mapHeight( map m, size_t *h )
+{
+	if( m == NULL)
+	{
+		printf("%s:%d:mapNameLen(): passed a null ptr\n",
+		       __FILE__, __LINE__);
+		fflush(stdout);
+		return -1;
+	}
+
+	*h = H(m);
+
+	return 0;
+}
+
+int mapName( map m, char **str_ptr )
+{
+	if( m == NULL || str_ptr == NULL )
+	{
+		printf("%s:%d:mapNameLen(): passed a null ptr "
+		       "m=%p, str_ptr=%p\n",
+		       __FILE__, __LINE__, (void *) m, (void *) str_ptr ) ;
+		fflush(stdout);
+		return -1;
+	}
+
+	*str_ptr = malloc(sizeof(char) * NAMELEN(m) ) ;
+
+	strcpy( *str_ptr, NAME(m) ) ;
+
+	return 0;
+}
+
+int mapCopy( map dest, map src )
+{
+	if( src == NULL || dest == NULL)
+	{
+		printf("%s:%d:mapNameLen(): passed a null ptr: "
+		       "dest=%p, src=%p\n",
+		       __FILE__, __LINE__, (void *) dest, (void *) src );
+		fflush(stdout);
+		return -1;
+	}
+
+	
+
+	strcpy( NAME(dest), NAME(src) );
 
 	return 0;
 }
