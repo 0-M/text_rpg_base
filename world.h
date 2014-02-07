@@ -6,12 +6,18 @@
 #include "map.h"
 
 typedef struct S_WORLD {
-	char **map      ;
+	map m           ;
 	char **items    ;
 	char **creatures;
 	char **players  ;
 } world ; 
 
-int worldInit( char *mapString , world *WORLD ) ;
+extern int worldInit( char *mapString , world *WORLD ) ;
+
+extern worldDelete( world *WORLD ) ;
+
+extern worldCopy( world *WORLD ) ;
+
+extern worldPrint(world *WORLD ) ;
 
 #endif
