@@ -80,7 +80,7 @@ int interfaceLoop()
 int getInput( int *item )
 {
 	int returnCode = -1 ;
-	int i;
+	size_t i;
 	size_t numWords;
 	size_t buffLength;
 	char *buffers[MAX_INPUT_WORDS] ;
@@ -102,7 +102,7 @@ int getInput( int *item )
 
 	/* turn input into individual words */
 	numWords = inputToWords( buffers, buffLength );
-	printf("number of words = %d\n\n", numWords);
+	printf("number of words = %zu\n\n", numWords);
 
 	/* convert strings to uppercase */
 	for ( i = 1 ; i <= numWords ; i++ ){

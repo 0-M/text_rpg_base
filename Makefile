@@ -19,16 +19,21 @@ CFLAGS= $(WARNINGS) -std=c11 -pedantic -c \
 
 LDFLAGS=
 
-SOURCES= main.c map.c user_interface.c world.c
+SOURCES= main.c map.c user_interface.c world.c 
 
 OBJS= $(SOURCES:.c=.o)
 
 EXEC= main
 
-all: $(SOURCES) $(EXEC)
+TESTS= maptest
+
+all: $(SOURCES) $(EXEC) $(TESTS)
 
 $(EXEC): $(OBJS)
-	$(CC) $(LDFLAGS) $(OBJS) -o $@
+	$(CC) $(LDFLAGS) $(INCLUDE) $(OBJS) -o $@
+
+$(TESTS): $(TESTS:test=.o) 
+	$(CC) $(LDFLAGS) $(INCLUDE) $(@:test=_test.c) $< -o $@
 
 .c.o: 
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
@@ -36,5 +41,6 @@ $(EXEC): $(OBJS)
 clean:
 	rm -f $(EXEC)
 	rm -f $(OBJS) 
+	rm -f $(TESTS)
 	rm -f *.o
 	rm -f *~ 
