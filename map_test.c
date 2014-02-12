@@ -22,7 +22,12 @@ int main(int argc, char *argv[] )
 
 	map mymap = (( map ) NULL);
 
-	assert( argc > 1 ) ;
+	if(argc != 1){
+
+		printf("usage: %s <map file to test>\n", argv[0] ) ;
+
+		return -1;
+	}
 
 	rc = mapInit( &mymap );
 
