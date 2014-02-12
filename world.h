@@ -5,6 +5,8 @@
 
 #include "map.h"
 
+/* fixme move definition of world struct to world.c */
+
 typedef struct S_WORLD {
 	map m           ;
 	char **items    ;
@@ -14,10 +16,10 @@ typedef struct S_WORLD {
 
 extern int worldInit( char *mapString , world *WORLD ) ;
 
-extern worldDelete( world *WORLD ) ;
+extern int worldDelete( world *WORLD ) ;
 
-extern worldCopy( world *WORLD ) ;
+extern int worldCopy( world *WORLD ) ;
 
-extern worldPrint(world *WORLD ) ;
+extern int worldPrint(world *WORLD ) ;
 
 #endif

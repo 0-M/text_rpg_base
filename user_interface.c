@@ -80,7 +80,8 @@ int interfaceLoop()
 int getInput( int *item )
 {
 	int returnCode = -1 ;
-	int i, numWords;
+	int i;
+	size_t numWords;
 	size_t buffLength;
 	char *buffers[MAX_INPUT_WORDS] ;
 	

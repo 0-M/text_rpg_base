@@ -17,6 +17,8 @@ typedef struct map_s {
 
 } map_s;
 
+#define MAXNAMELEN 256
+
 #define NAME(m) (m->name)
 #define THEMAP(m) (m->theMap)
 #define W(m) (m->width)
@@ -30,6 +32,8 @@ int mapLoad( map m, const char *fileName )
 	size_t i = 0;
 
 	FILE *mapFilePtr = NULL;
+
+	char *newName = (char *) malloc(sizeof(char) * MAXNAMELEN);
 
 	if( fileName == NULL ) {
 
@@ -57,6 +61,16 @@ int mapLoad( map m, const char *fileName )
 		return -1 ; 
 	}
 	
+	/* Get name from map data file, malloc space in object for it */
+
+	fscanf( mapFilePtr , "%s", newName ) ;
+
+	i = strlen( newName ) ;
+
+	NAME(m) = (char *) malloc(sizeof(char) * i ) ;
+
+	strcpy( NAME(m), newName ) ;
+
 	/* Get height and width from map data file */
 
 	fscanf( mapFilePtr , "%lu\n%lu", & H(m), & W(m) ) ;
