@@ -24,6 +24,8 @@ int main(int argc, char *argv[] )
 
 	size_t whichslice = DEFAULTSLICE;
 
+	size_t doubleBufferH;
+
 	char *name = NULL;
 
 	char **mybuf = NULL;
@@ -62,7 +64,9 @@ int main(int argc, char *argv[] )
 
 	printf("\n");
 
-	rc = mapDoubleBuffer( mymap, &mybuf ); assert( rc == 0 ) ;
+	rc = mapDoubleBuffer( mymap, &mybuf, &doubleBufferH ); 
+
+	assert( rc == 0 ) ;
 
 	printf("printing the map after copying via mapDoubleBuffer()\n");
 

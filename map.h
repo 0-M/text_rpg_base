@@ -65,7 +65,15 @@ extern int mapNameLen(map m, size_t *nameLen ) ;
 
 extern int mapPrint( map m ) ;
 
-extern int mapDoubleBuffer( map m, char ***BUFFER ) ;
+/* mapDoublebuffer will take a ptr to a NULL and give it content equal to
+ * the data inside the double array in the map object.
+ *
+ * if it is passed an already allocated double buffer it will erase the content
+ * then free old memory, and ask for new memory for the new map.
+ */
+extern int mapDoubleBuffer( map m, char ***BUFFER, size_t *h ) ;
+
+extern int freeDoubleBuffer( char **BUFFER, size_t h ) ;
 
 extern int mapSingleBuffer( map m, size_t line, char **BUFFER ) ;
 

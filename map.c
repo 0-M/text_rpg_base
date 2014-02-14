@@ -315,7 +315,7 @@ int mapCopy( map dest, map src )
 	return 0;
 }
 
-int mapDoubleBuffer( map m, char ***BUFFER )
+int mapDoubleBuffer( map m, char ***BUFFER, size_t *h )
 {
 	if( m == NULL || BUFFER == NULL )
 	{
@@ -326,8 +326,15 @@ int mapDoubleBuffer( map m, char ***BUFFER )
 		return -1 ;
 	}
 
+	if( *BUFFER != NULL ) {
+
+		freeDoubleBuffer( *BUFFER, *h ) ;
+	}
+
 	*BUFFER = (char **) malloc( sizeof( char *) * H(m) ) ;
 
+	*h = H(m) ;
+	
 	for( size_t i = 0 ; i < H(m) ; ++i ) 
 	{
 		(*BUFFER)[i] = (char *) malloc( sizeof( char ) * W(m) ) ;
@@ -354,4 +361,23 @@ int mapSingleBuffer( map m, size_t line, char **BUFFER )
 	strcpy( *BUFFER, THEMAP(m)[line] ) ;
 
 	return 0;
+}
+
+int freeDoubleBuffer( char **BUFFER, size_t h )
+{
+	if( BUFFER == NULL ){
+		printf("%s:%d:freeDoubleBuffer(): was passed NULL\n",
+		       __FILE__, __LINE__ ) ;
+		fflush( stdout ) ;
+		return -1 ;
+	}
+
+	for( size_t i = 0 ; i < h ; ++i )
+	{
+		free( BUFFER[i] ) ;
+	}
+
+	free( BUFFER ) ;
+
+	return 0 ;
 }
