@@ -11,6 +11,8 @@
 typedef struct location_s *location ;
 
 extern int initLoc( location *l ) ;
+
+/* returns 1 if true, 0 if false. */
 extern int isLocInitted( location l ) ;
 
 extern int zeroLoc( location l ) ;

@@ -1,7 +1,7 @@
 /* user interface API */
 
-#include "user_interface.h"
-#include "world.h"
+#include <user_interface.h>
+#include <world.h>
 
 
 #include <ctype.h>
@@ -80,11 +80,13 @@ int interfaceLoop()
 int getInput( int *item )
 {
 	int returnCode = -1 ;
-	size_t i;
-	size_t numWords;
+	int i;
+	int numWords;
 	size_t buffLength;
 	char *buffers[MAX_INPUT_WORDS] ;
 	
+	item = NULL ;
+
 	buffers[0] = malloc( sizeof (char) * BUFSIZ ) ;
 	if (buffers[0] == NULL) return -2;
 
@@ -102,7 +104,7 @@ int getInput( int *item )
 
 	/* turn input into individual words */
 	numWords = inputToWords( buffers, buffLength );
-	printf("number of words = %zu\n\n", numWords);
+	printf("number of words = %d\n", numWords);
 
 	/* convert strings to uppercase */
 	for ( i = 1 ; i <= numWords ; i++ ){
