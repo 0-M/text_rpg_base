@@ -25,7 +25,7 @@ extern int mapDelete( map m ) ;
  * are pointers or integral types
  */
 
-extern int mapZeroize( map m ) ;
+extern int mapZero( map m ) ;
 
 /*
  * mapIsInitted returns 1 if map is non-null, 0 if map is null. for use in 
@@ -64,5 +64,9 @@ extern int mapName( map m, char **str_ptr ) ;
 extern int mapNameLen(map m, size_t *nameLen ) ;
 
 extern int mapPrint( map m ) ;
+
+extern int mapDoubleBuffer( map m, char ***BUFFER ) ;
+
+extern int mapSingleBuffer( map m, size_t line, char **BUFFER ) ;
 
 #endif

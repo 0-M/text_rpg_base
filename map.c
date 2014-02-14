@@ -25,7 +25,7 @@ typedef struct map_s {
 #define H(m) (m->height)
 #define NAMELEN(m) (m->nameLen)
 
-int mapZeroizeFree( map m ) ;
+int mapZeroFree( map m ) ;
 
 int mapLoad( map m, const char *fileName )
 {
@@ -104,11 +104,11 @@ int mapInit( map *m )
 
 	*m = ( (map) malloc( sizeof( map_s ) ) ) ;
 
-	rc = mapZeroize( *m ) ;
+	rc = mapZero( *m ) ;
 
 	if( rc != 0 ) {
 		
-		printf("ERROR:%s:%d:mapInit(): mapZeroize() failed m=%p\n",
+		printf("ERROR:%s:%d:mapInit(): mapZero() failed *m=%p\n",
 		       __FILE__, __LINE__, (void *) *m);
 	}
 
@@ -132,7 +132,7 @@ int mapDelete( map m )
 		return 1;
 	}
 
-	rc = mapZeroizeFree( m ) ;
+	rc = mapZeroFree( m ) ;
 
 	if( rc != 0 ) {
 		
@@ -143,12 +143,12 @@ int mapDelete( map m )
 		return rc;
 	}
 
-	rc = mapZeroize( m ) ;
+	rc = mapZero( m ) ;
 
 	if( rc != 0 ) {
 
 		printf("ERROR:%s:%d:mapDelete(): "
-		       "mapZeroize failed rc=%d, m=%p. \n",
+		       "mapZero failed rc=%d, m=%p. \n",
 		       __FILE__, __LINE__, rc, (void *) m ) ;
 		return rc;
 	}
@@ -158,7 +158,7 @@ int mapDelete( map m )
 	return 0;
 }
 
-int mapZeroizeFree( map m )
+int mapZeroFree( map m )
 {
 	size_t i;
 
@@ -192,11 +192,11 @@ int mapZeroizeFree( map m )
 	return 0 ;
 }
 
-int mapZeroize( map m ) 
+int mapZero( map m ) 
 {
 	if( m == NULL ) {
 
-		printf("ERROR:%s:%d:mapZeroize(): was passed a null ptr\n",
+		printf("ERROR:%s:%d:mapZero(): was passed a null ptr\n",
 		       __FILE__, __LINE__ ) ;
 		fflush( stdout ) ;
 		return -1 ;
@@ -311,6 +311,47 @@ int mapCopy( map dest, map src )
 	
 
 	strcpy( NAME(dest), NAME(src) );
+
+	return 0;
+}
+
+int mapDoubleBuffer( map m, char ***BUFFER )
+{
+	if( m == NULL || BUFFER == NULL )
+	{
+		printf("ERROR:%s:%d:mapDoubleBuffer(): was passed NULL "
+		       "m=%p, BUF=%p\n", __FILE__, __LINE__,
+		       (void *) m, (void *) BUFFER ) ;
+		fflush( stdout ) ;
+		return -1 ;
+	}
+
+	*BUFFER = (char **) malloc( sizeof( char *) * H(m) ) ;
+
+	for( size_t i = 0 ; i < H(m) ; ++i ) 
+	{
+		(*BUFFER)[i] = (char *) malloc( sizeof( char ) * W(m) ) ;
+
+		strcpy( (*BUFFER)[i], THEMAP(m)[i] ) ;
+	}
+
+	return 0;
+}
+
+int mapSingleBuffer( map m, size_t line, char **BUFFER )
+{
+	if( m == NULL || BUFFER == NULL )
+	{
+		printf("ERROR:%s:%d:mapSingleBuffer(): was passed NULL "
+		       "m=%p, BUF=%p\n", __FILE__, __LINE__,
+		       (void *) m, (void *) BUFFER ) ;
+		fflush( stdout ) ;
+		return -1 ;
+	}
+
+	*BUFFER = (char *) malloc( sizeof(char) * W(m) ) ;
+
+	strcpy( *BUFFER, THEMAP(m)[line] ) ;
 
 	return 0;
 }
