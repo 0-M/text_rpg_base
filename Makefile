@@ -17,9 +17,12 @@ INCLUDE= -I .
 CFLAGS= $(WARNINGS) -std=c11 -pedantic -c \
 	$(DBGFLAGS)
 
+TESTFLAGS= $(WARNINGS) -std=c11 -pedantic \
+	   $(DBGFLAGS)
+
 LDFLAGS=
 
-SOURCES= main.c map.c user_interface.c world.c 
+SOURCES= main.c map.c user_interface.c world.c location.c
 
 OBJS= $(SOURCES:.c=.o)
 
@@ -32,8 +35,9 @@ all: $(SOURCES) $(EXEC) $(TESTS)
 $(EXEC): $(OBJS)
 	$(CC) $(LDFLAGS) $(INCLUDE) $(OBJS) -o $@
 
-$(TESTS): $(TESTS:test=.o) 
-	$(CC) $(LDFLAGS) $(INCLUDE) $(@:test=_test.c) $< -o $@
+$(TESTS): $(@:test=.o) 
+	$(CC) $(LDFLAGS) $(INCLUDE) $(TESTFLAGS) \
+	$(@:test=_test.c) $(@:test=.o) -o $@
 
 .c.o: 
 	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@
