@@ -7,19 +7,22 @@
 
 /* fixme move definition of world struct to world.c */
 
-typedef struct S_WORLD {
-	map m           ;
-	char **items    ;
-	char **creatures;
-	char **players  ;
-} world ; 
+typedef struct world_s *world;
 
-extern int worldInit( char *mapString , world *WORLD ) ;
+extern int worldInit( world *w ) ;
 
-extern int worldDelete( world *WORLD ) ;
+extern int worldZero( world w ) ;
 
-extern int worldCopy( world *WORLD ) ;
+extern int worldIsInitted( world w ) ;
 
-extern int worldPrint(world *WORLD ) ;
+extern int worldDelete( world w ) ;
+
+extern int worldCopy( world dest, world src ) ;
+
+extern int worldPrint(world w ) ;
+
+extern int worldEqual(world lhs, world rhs ) ;
+
+extern int worldName( world w, char **str_ptr ) ;
 
 #endif
