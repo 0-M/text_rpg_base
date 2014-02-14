@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 typedef struct location_s {
 
@@ -41,11 +42,29 @@ int isLocInitted( location l )
 	return 1 ;
 }
 
-int zeroLoc( location l ) 
+int zeroLoc( location l )
 {
 	if( l == NULL )
 	{
 		printf( "ERROR:%s:%d:zeroLoc(): was passed NULL\n",
+		       __FILE__ , __LINE__ ) ;
+		fflush( stdout ) ;
+		return -1 ;
+	}
+
+	N(l) = NULL ;
+
+	X(l) = 0 ;
+	Y(l) = 0 ;
+
+	return 0;
+}
+
+int zeroLocFree( location l ) 
+{
+	if( l == NULL )
+	{
+		printf( "ERROR:%s:%d:zeroLocFree(): was passed NULL\n",
 		       __FILE__ , __LINE__ ) ;
 		fflush( stdout ) ;
 		return -1 ;
@@ -91,6 +110,25 @@ int setLocY( location l, size_t n )
 	return 0;
 }
 
+int setLocN(location l, const char *n )
+{
+	if( n == NULL )
+	{
+		printf("%s:%d:setLocN(): was passed NULL\n",
+		       __FILE__, __LINE__ ) ;
+		fflush( stdout ) ;
+		return -1 ;
+	}
+
+	if( N(l) != NULL ) free( N(l) ) ;
+
+	N(l) = (char *) malloc( sizeof( char ) * strlen( n ) ) ;
+	
+	strcpy( N(l), n ) ;
+
+	return 0 ;
+}
+
 size_t getLocX( location l )
 {
 	if( l == NULL )
@@ -115,4 +153,57 @@ size_t getLocY( location l )
 	}
 
 	return Y(l) ;
+}
+
+const char *getLocN( location l )
+{
+	if( l == NULL )
+	{
+		printf("%s:%d:getLocN(): was passed NULL\n",
+		       __FILE__, __LINE__ ) ;
+		fflush( stdout ) ;
+		return NULL ;
+	}
+
+	return N(l);
+}
+
+int deleteLoc( location l )
+{
+	int rc;
+
+	if( l == NULL ){
+		printf("%s:%d:deleteloc(): was passed NULL\n",
+		       __FILE__, __LINE__ ) ;
+		fflush(stdout) ;
+		return -1;
+	}
+
+	rc = zeroLocFree( l ) ;
+
+	if( rc != 0 )
+	{
+		printf("WARNING:%s:%d:deleteLoc(): zeroLocFree() failed."
+		       "may be causing a memory leak.\n",
+		       __FILE__, __LINE__ ) ;
+	}
+
+	free( l ) ;
+
+	return 0;
+}
+
+int printLoc( location l )
+{
+	if( l == NULL )
+	{
+		printf("%s:%d:printLoc(): was passed NULL\n",
+		       __FILE__, __LINE__ ) ;
+		fflush( stdout ) ;
+		return -1 ;
+	}
+
+	printf("Name: %s x:%zu y:%zu\n", N(l), X(l), Y(l) ) ;
+
+	return 0 ;
 }

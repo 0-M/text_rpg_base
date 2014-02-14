@@ -22,9 +22,11 @@ extern int deleteLoc( location l ) ;
 extern int setLocX( location l, size_t n ) ;
 extern int setLocY( location l, size_t n ) ;
 
-extern int setLocN(const char *n ) ;
+extern int setLocN(location l, const char *n ) ;
 
 extern size_t getLocX( location l ) ;
 extern size_t getLocY( location l ) ;
 
 extern const char *getLocN( location l ) ;
+
+extern int printLoc( location l ) ;

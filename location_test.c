@@ -3,7 +3,7 @@
 
 #include <location.h>
 
-int main(int argc, char *argv[] ) 
+int main() 
 {
 	location myloc = NULL;
 	
@@ -11,7 +11,13 @@ int main(int argc, char *argv[] )
 
 	printf(" is initted returned %d\n", isLocInitted( myloc ) ) ;
 
-	
+	setLocX( myloc, 12 ) ;
+
+	setLocY( myloc, 31 ) ;
+
+     	setLocN( myloc, "amapname" ) ;
+
+	printLoc( myloc ) ;
 
 	return 0 ;
 }
