@@ -37,9 +37,7 @@ int initLoc( location *l )
 
 int isLocInitted( location l )
 {
-	if( l == NULL ) return 0 ;
-
-	return 1 ;
+	return ((l == NULL ) ? 0 : 1) ;
 }
 
 int zeroLoc( location l )
@@ -146,7 +144,7 @@ size_t getLocY( location l )
 {
 	if( l == NULL )
 	{
-		printf("%s:%d:getLocY(): passed NULL\n",
+		printf("%s:%d:getLocY(): was passed NULL\n",
 		       __FILE__, __LINE__ ) ;
 		fflush(stdout);
 		return 0;
