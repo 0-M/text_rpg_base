@@ -1,9 +1,6 @@
 #include <stdlib.h>
 #include <list.h>
  
-#define DATA( L ) ( ( L ) -> datapointer )
-#define NEXT( L ) ( ( L ) -> next )
-
 status allocate_node( list *p_L, generic_ptr data ) {
 
 	list L = (list)malloc( sizeof( node ) ) ;
@@ -73,22 +70,24 @@ status delete( list *p_L, generic_ptr *p_data ) {
 	
 }
 
-status delete_node( list *p_L, list node ) {
+status delete_node( list *p_L, list n ) {
 	
 	if( empty_list( *p_L ) == TRUE ) return ERROR ;
 	
-	if( *p_L == node ) *p_L = NEXT( *p_L ) ;
+	if( *p_L == n ) *p_L = NEXT( *p_L ) ;
 	else {
 		
 		list L ;
-		for( L = *p_L; L != NULL && NEXT(L) != node; L = NEXT(L) ) ;
+		for( L = *p_L; L != NULL && NEXT(L) != n; L = NEXT(L) ) ;
 		
 		if( L == NULL ) return ERROR ;
-		else NEXT(L) = NEXT(node) ;
+		
+		NEXT(L) = NEXT(n) ;
 		
 	}
 	
-	free_node( &node ) ;
+	free_node( &n ) ;
+
 	return OK ;
 	
 }
@@ -100,7 +99,7 @@ status traverse( list L, status (*p_func_f) () ) {
 	if( (*p_func_f)(DATA(L)) == ERROR ) return ERROR ;
 	
 	else return traverse( NEXT(L), p_func_f ) ;
-	
+	 
 }
 
 status find_key( list L, generic_ptr key, int (*p_cmp_f)(), list *p_keynode ) {
@@ -112,7 +111,7 @@ status find_key( list L, generic_ptr key, int (*p_cmp_f)(), list *p_keynode ) {
 		if( (*p_cmp_f)(key, DATA(curr)) == 0 ) {
 			
 			*p_keynode = curr ;
-			return OK ;
+			return OK ; 
 			
 		}
 		
@@ -161,22 +160,3 @@ bool equal( list L1, list L2, int (*p_cmp_f)() ) {
 	
 }
 
-bool set_equal( list L1, list L2, int (*p_cmp_f)() ) {
-
-	list curr1 = NULL, curr2 = NULL, data ;
-	
-	while( ( curr1 = list_iterator( L1, curr1 ) ) != NULL ) {
-		
-		if( find_key( L2, DATA(curr1), p_cmp_f, &data ) == ERROR ) return FALSE ;
-		
-	}
-	
-	while( ( curr2 = list_iterator( L2, curr2 ) ) != NULL ) {
-		
-		if( find_key( L1, DATA(curr2), p_cmp_f, &data ) == ERROR ) return FALSE ;
-		
-	}
-	
-	return TRUE ;
-	
-}

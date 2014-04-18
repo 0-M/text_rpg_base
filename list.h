@@ -1,14 +1,21 @@
 #ifndef __EW_LIST__
 #define __EW_LIST__
 
-
-
 typedef enum { OK, ERROR } status ;
 typedef enum { FALSE=0 , TRUE=1 } bool ;
 typedef void *generic_ptr ;
 
 typedef struct node node, *list;
-struct node { generic_ptr datapointer; list next; } ;
+struct node 
+{ 
+	generic_ptr datapointer; 
+	list next; 
+} ;
+
+#define DATA( L ) ( ( L ) -> datapointer )
+#define NEXT( L ) ( ( L ) -> next )
+
+
 
 extern status allocate_node( list *p_L, generic_ptr data ) ;
 extern void free_node( list *p_L ) ;

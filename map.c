@@ -381,3 +381,39 @@ int freeDoubleBuffer( char **BUFFER, size_t h )
 
 	return 0 ;
 }
+
+int mapEqual(map lhs, map rhs )
+{
+	size_t i;
+
+	/* if pointers are same, then match */
+
+	if( lhs == rhs ) return 0;
+
+	/* if height and width don't match, not equal */
+
+	if( W(rhs) != W(lhs) ) return -1;
+
+	if( H(rhs) != H(lhs) ) return -1;
+
+	/* compare names of maps. */
+
+	if( NAMELEN(rhs) != NAMELEN(lhs) ) return -1;
+
+	if( strcmp( NAME(rhs), NAME(lhs) ) != 0 ) return -1;
+
+	/* compare map arrays themselves for final check. */
+
+	/* FIXME: is this overkill? should maps have unique identifier, 
+	 * or should their name be used as unique identifier? */
+
+	for( i = 0; i < H(rhs); ++i )
+	{
+		if(strcmp( lhs->theMap[i], rhs->theMap[i] ) != 0)
+		{
+			return -1;
+		}
+	}
+	
+	return 0;
+}
