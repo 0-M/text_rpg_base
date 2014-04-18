@@ -8,25 +8,27 @@
 
 #include <stddef.h>
 
+#include <globals.h>
+
 typedef struct location_s *location ;
 
-extern int initLoc( location *l ) ;
+extern status initLoc( location *l ) ;
 
 /* returns 1 if true, 0 if false. */
-extern int isLocInitted( location l ) ;
+extern bool isLocInitted( location l ) ;
 
-extern int zeroLoc( location l ) ;
+extern status zeroLoc( location l ) ;
 
-extern int deleteLoc( location l ) ;
+extern status deleteLoc( location l ) ;
 
-extern int setLocX( location l, size_t n ) ;
-extern int setLocY( location l, size_t n ) ;
+extern status setLocX( location l, size_t n ) ;
+extern status setLocY( location l, size_t n ) ;
 
-extern int setLocN(location l, const char *n ) ;
+extern status setLocN(location l, const char *n ) ;
 
 extern size_t getLocX( location l ) ;
 extern size_t getLocY( location l ) ;
 
-extern const char *getLocN( location l ) ;
+extern const char *getLocName( location l ) ;
 
-extern int printLoc( location l ) ;
+extern status printLoc( location l ) ;

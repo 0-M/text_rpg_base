@@ -14,7 +14,7 @@ typedef struct location_s {
 #define Y(l) (l -> y       )
 #define N(l) (l -> mapName )
 
-int initLoc( location *l )
+status initLoc( location *l )
 {
 	int rc = 0;
 	
@@ -32,22 +32,22 @@ int initLoc( location *l )
 		return -1 ;
 	}
 
-	return 0;
+	return OK;
 }
 
-int isLocInitted( location l )
+bool isLocInitted( location l )
 {
-	return ((l == NULL ) ? 0 : 1) ;
+	return ((l == NULL ) ? TRUE : FALSE) ;
 }
 
-int zeroLoc( location l )
+status zeroLoc( location l )
 {
 	if( l == NULL )
 	{
 		printf( "ERROR:%s:%d:zeroLoc(): was passed NULL\n",
 		       __FILE__ , __LINE__ ) ;
 		fflush( stdout ) ;
-		return -1 ;
+		return ERROR ;
 	}
 
 	N(l) = NULL ;
@@ -55,7 +55,7 @@ int zeroLoc( location l )
 	X(l) = 0 ;
 	Y(l) = 0 ;
 
-	return 0;
+	return OK;
 }
 
 int zeroLocFree( location l ) 
@@ -65,7 +65,7 @@ int zeroLocFree( location l )
 		printf( "ERROR:%s:%d:zeroLocFree(): was passed NULL\n",
 		       __FILE__ , __LINE__ ) ;
 		fflush( stdout ) ;
-		return -1 ;
+		return ERROR ;
 	}
 
 	free( N(l) ) ;
@@ -75,7 +75,7 @@ int zeroLocFree( location l )
 	X(l) = 0 ;
 	Y(l) = 0 ;
 
-	return 0 ;
+	return OK ;
 }
 
 int setLocX( location l, size_t n )
@@ -85,12 +85,12 @@ int setLocX( location l, size_t n )
 		printf("%s:%d:setLocX(): passed NULL\n",
 		       __FILE__, __LINE__ ) ;
 		fflush(stdout);
-		return -1;
+		return ERROR;
 	}
 
 	X(l) = n ;
 
-	return 0;
+	return OK;
 }
 
 int setLocY( location l, size_t n )
@@ -100,12 +100,12 @@ int setLocY( location l, size_t n )
 		printf("%s:%d:setLocY(): passed NULL\n",
 		       __FILE__, __LINE__ ) ;
 		fflush(stdout);
-		return -1;
+		return ERROR;
 	}
 
 	Y(l) = n ;
 
-	return 0;
+	return OK;
 }
 
 int setLocN(location l, const char *n )
@@ -115,7 +115,7 @@ int setLocN(location l, const char *n )
 		printf("%s:%d:setLocN(): was passed NULL\n",
 		       __FILE__, __LINE__ ) ;
 		fflush( stdout ) ;
-		return -1 ;
+		return ERROR ;
 	}
 
 	if( N(l) != NULL ) free( N(l) ) ;
@@ -124,7 +124,7 @@ int setLocN(location l, const char *n )
 	
 	strcpy( N(l), n ) ;
 
-	return 0 ;
+	return OK ;
 }
 
 size_t getLocX( location l )
@@ -153,7 +153,7 @@ size_t getLocY( location l )
 	return Y(l) ;
 }
 
-const char *getLocN( location l )
+const char *getLocName( location l )
 {
 	if( l == NULL )
 	{
@@ -174,7 +174,7 @@ int deleteLoc( location l )
 		printf("%s:%d:deleteloc(): was passed NULL\n",
 		       __FILE__, __LINE__ ) ;
 		fflush(stdout) ;
-		return -1;
+		return ERROR;
 	}
 
 	rc = zeroLocFree( l ) ;
@@ -188,7 +188,7 @@ int deleteLoc( location l )
 
 	free( l ) ;
 
-	return 0;
+	return OK;
 }
 
 int printLoc( location l )
@@ -198,10 +198,10 @@ int printLoc( location l )
 		printf("%s:%d:printLoc(): was passed NULL\n",
 		       __FILE__, __LINE__ ) ;
 		fflush( stdout ) ;
-		return -1 ;
+		return ERROR ;
 	}
 
 	printf("Name: %s x:%zu y:%zu\n", N(l), X(l), Y(l) ) ;
 
-	return 0 ;
+	return OK ;
 }
