@@ -22,7 +22,7 @@ TESTFLAGS= $(WARNINGS) -std=c11 -pedantic \
 
 LDFLAGS=
 
-SOURCES= main.c map.c user_interface.c world.c location.c
+SOURCES= main.c map.c user_interface.c world.c location.c list.c
 
 OBJS= $(SOURCES:.c=.o)
 
