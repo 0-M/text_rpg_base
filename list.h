@@ -1,9 +1,7 @@
 #ifndef __EW_LIST__
 #define __EW_LIST__
 
-typedef enum { OK, ERROR } status ;
-typedef enum { FALSE=0 , TRUE=1 } bool ;
-typedef void *generic_ptr ;
+#include <globals.h>
 
 typedef struct node node, *list;
 struct node 
