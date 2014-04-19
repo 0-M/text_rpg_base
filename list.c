@@ -120,10 +120,9 @@ status find_key( list L, generic_ptr key, int (*p_cmp_f)(), list *p_keynode ) {
 	
 } 
 
-list list_iterator( list L, list lastreturn ) {
-	
-	return ( lastreturn == NULL ) ? L : NEXT(lastreturn) ;
-	
+list list_iterator( list L, list lastreturn ) 
+{	
+	return ( lastreturn == NULL ) ? L : NEXT( lastreturn ) ;	
 }
 
 void destroy( list *p_L, void (*p_func_f)() ) {
@@ -160,3 +159,34 @@ bool equal( list L1, list L2, int (*p_cmp_f)() ) {
 	
 }
 
+size_t list_length( list L )
+{
+	size_t length = 0;
+
+	list curr = NULL ;
+
+	while( ( curr = list_iterator( L, curr ) ) != NULL )
+	{
+		++length ;
+	}
+	
+	return length;
+}
+
+/* FIXME: BUG/FEATURE : */
+
+extern status list_index( list L, size_t index, list *p_L )
+{
+	list curr = NULL ;
+
+	while( index != 0 )
+	{
+		curr = list_iterator( L, curr ) ;
+
+		--index ;
+	}
+	
+	*p_L = curr ;
+	
+	return OK;
+}

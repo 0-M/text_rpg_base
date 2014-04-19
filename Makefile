@@ -28,7 +28,7 @@ OBJS= $(SOURCES:.c=.o)
 
 EXEC= main
 
-TESTS= maptest locationtest
+TESTS= maptest locationtest listtest
 
 all: $(SOURCES) $(EXEC) $(TESTS)
 

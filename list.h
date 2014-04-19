@@ -1,7 +1,14 @@
 #ifndef __EW_LIST__
 #define __EW_LIST__
 
+/*
+ * polymorphic single linked list implementation based on Esakov and Weiss
+ * Textbook
+ *
+ */
+
 #include <globals.h>
+#include <stddef.h>
 
 typedef struct node node, *list;
 struct node 
@@ -12,8 +19,6 @@ struct node
 
 #define DATA( L ) ( ( L ) -> datapointer )
 #define NEXT( L ) ( ( L ) -> next )
-
-
 
 extern status allocate_node( list *p_L, generic_ptr data ) ;
 extern void free_node( list *p_L ) ;
@@ -30,5 +35,21 @@ extern status find_key( list L, generic_ptr key, int (*p_cmp_f)(), list *p_keyno
 
 extern list list_iterator( list L, list lastreturn ) ;
 extern void destroy( list *p_L, void (*p_func_f)() );
+
+/* 
+ * Extension functions which allow access by index implemented by mwolf
+ * 
+ * works like array indexes: a list with 10 elements (10 long) can be accessed 
+ * from 0 to 9 and list_length will return 10. 
+ *
+ * FIXME: decide if
+ * BUG/FEATURE: inputting an index greater than the list length will return
+ * a pointer to the last node in the list because of the way list_iterator
+ * operates.
+ */
+
+extern status list_index( list L, size_t index, list *p_L ) ;
+
+extern size_t list_length( list L ) ;
 
 #endif
