@@ -173,19 +173,28 @@ size_t list_length( list L )
 	return length;
 }
 
-/* FIXME: BUG/FEATURE : */
+extern status list_index_safe( list L, size_t index, list *p_L )
+{
+	if( index >= list_length( L ) ) return ERROR;
+
+	return list_index( L, index, p_L ) ;
+}
 
 extern status list_index( list L, size_t index, list *p_L )
 {
-	list curr = NULL ;
+	/* set curr to be the 0th node in the list, so that if index 0 is given
+	 * return will occur without loop.
+	 */
 
-	while( index != 0 )
+	list curr = list_iterator(L, NULL ) ;
+
+	while( index > 0 )
 	{
 		curr = list_iterator( L, curr ) ;
 
 		--index ;
 	}
-	
+
 	*p_L = curr ;
 	
 	return OK;

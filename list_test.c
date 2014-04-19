@@ -84,7 +84,7 @@ void fill_list(list *p_L, int32_t length )
 
 	int32_t *p ;
 
-	while( length >= 0 )
+	while( length > 0 )
 	{
 		p = ( int32_t * ) malloc(sizeof( int32_t ) ) ;
 

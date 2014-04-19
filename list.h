@@ -42,13 +42,16 @@ extern void destroy( list *p_L, void (*p_func_f)() );
  * works like array indexes: a list with 10 elements (10 long) can be accessed 
  * from 0 to 9 and list_length will return 10. 
  *
- * FIXME: decide if
- * BUG/FEATURE: inputting an index greater than the list length will return
- * a pointer to the last node in the list because of the way list_iterator
- * operates.
+ * list_index_safe() will fail if the index passed is greater than the list
+ * length.
+ *
+ * list_index() will set p_L to the last element in the list if index passed
+ * is greater than list length.
  */
 
 extern status list_index( list L, size_t index, list *p_L ) ;
+
+extern status list_index_safe( list L, size_t index, list *p_L ) ;
 
 extern size_t list_length( list L ) ;
 
