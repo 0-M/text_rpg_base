@@ -3,6 +3,7 @@
 
 /* main API for the displayed world */
 
+#include <globals.h>
 #include <map.h>
 #include <location.h>
 #include <player.h>
@@ -14,43 +15,48 @@ typedef struct entity_s *entity ;
 typedef struct player_s *player ;
 typedef struct world_s *world;
 
-extern int worldInit( world *w ) ;
+extern status worldInit( world *w ) ;
 
-extern int worldZero( world w ) ;
+extern status worldZero( world w ) ;
 
-extern int worldIsInitted( world w ) ;
+extern bool worldIsInitted( world w ) ;
 
-extern int worldDelete( world w ) ;
+extern status worldDelete( world w ) ;
 
-extern int worldCopy( world dest, world src ) ;
+extern status worldCopy( world dest, world src ) ;
 
-extern int worldPrint(world w ) ;
+extern status worldPrint(world w ) ;
 
-extern int worldEqual(world lhs, world rhs ) ;
+extern status worldEqual(world lhs, world rhs ) ;
 
-extern int worldName( world w, char **str_ptr ) ;
+extern status worldName( world w, char **str_ptr ) ;
 
-extern int worldAddMap   ( world w, map m ) ;
-extern int worldDeleteMap( world w, map m ) ;
+extern status worldAddMap   ( world w, map m ) ;
+extern status worldDeleteMap( world w, map m ) ;
+
+/* helper function for worldDeleteMap() which will iterate through other lists
+ * and delete locations of objects originally in the deleted map
+ */
+extern status worldDeleteMapContents( world w, map m ) ;
+
+extern status worldAddPlayer   ( world w, player p, location l ) ;
+extern status worldDeletePlayer( world w, player p ) ;
+extern status worldUpdatePlayer(world w, player p, location l ) ;
 
 
-extern int worldAddPlayer   ( world w, player p, location l ) ;
-extern int worldDeletePlayer( world w, player p ) ;
-extern int worldUpdatePlayer(world w, player p, location l ) ;
+extern status worldAddEnt   ( world w, entity e, location l ) ;
+extern status worldDeleteEnt( world w, entity e ) ;
+extern status worldUpdateEnt(world w, entity e, location l ) ;
 
+extern status worldAddItem   ( world w, item i, location l ) ;
+extern status worldDeleteItem( world w, item i ) ;
+extern status worldUpdateItem( world w, item i, location l ) ;
 
-extern int worldAddEnt   ( world w, entity e, location l ) ;
-extern int worldDeleteEnt( world w, entity e ) ;
-extern int worldUpdateEnt(world w, entity e, location l ) ;
-
-extern int worldAddItem   ( world w, item i, location l ) ;
-extern int worldDeleteItem( world w, item i ) ;
-extern int worldUpdateItem( world w, item i, location l ) ;
-
-extern int worldClearPlayers( world w ) ;
-extern int worldClearMaps( world w ) ;
-extern int worldClearEnts( world w ) ;
-extern int worldClearItems( world w ) ;
+/* ClearMaps() will also delete all locations for items*/
+extern status worldClearMaps( world w ) ;
+extern status worldClearPlayers( world w ) ;
+extern status worldClearEnts( world w ) ;
+extern status worldClearItems( world w ) ;
 
 
 
