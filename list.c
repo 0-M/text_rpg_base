@@ -70,20 +70,19 @@ status delete( list *p_L, generic_ptr *p_data ) {
 	
 }
 
-status delete_node( list *p_L, list n ) {
-	
+status delete_node( list *p_L, list n ) 
+{	
+	list L ;
+
 	if( empty_list( *p_L ) == TRUE ) return ERROR ;
 	
 	if( *p_L == n ) *p_L = NEXT( *p_L ) ;
 	else {
-		
-		list L ;
 		for( L = *p_L; L != NULL && NEXT(L) != n; L = NEXT(L) ) ;
 		
 		if( L == NULL ) return ERROR ;
 		
 		NEXT(L) = NEXT(n) ;
-		
 	}
 	
 	free_node( &n ) ;
@@ -173,14 +172,14 @@ size_t list_length( list L )
 	return length;
 }
 
-extern status list_index_safe( list L, size_t index, list *p_L )
+extern status list_index( list L, size_t index, list *p_L )
 {
 	if( index >= list_length( L ) ) return ERROR;
 
 	return list_index( L, index, p_L ) ;
 }
 
-extern status list_index( list L, size_t index, list *p_L )
+extern status list_index_unsafe( list L, size_t index, list *p_L )
 {
 	/* set curr to be the 0th node in the list, so that if index 0 is given
 	 * return will occur without loop.
@@ -198,4 +197,46 @@ extern status list_index( list L, size_t index, list *p_L )
 	*p_L = curr ;
 	
 	return OK;
+}
+
+extern status find_key_index(list L, generic_ptr key, int (*p_cmp_f)(), 
+			     size_t *index ) 
+{
+	list curr = NULL ;
+	
+	size_t t_index = 0 ;
+
+	while( ( curr = list_iterator( L, curr ) ) != NULL ) 
+	{
+		if( (*p_cmp_f)(key, DATA(curr)) == 0 ) 
+		{	
+			*index = t_index ;
+			
+			return OK ; 			
+		}
+		
+		++t_index ;
+	}
+
+	return ERROR ;
+}
+
+status delete_by_index( list *p_L, generic_ptr *p_data, size_t index )
+{
+	list curr = list_iterator( *p_L, NULL ) ;
+
+	status rc ;
+
+	if( index > list_length( *p_L ) ) return ERROR ;
+
+	while( index > 0 )
+	{
+		curr = list_iterator( *p_L, curr ) ;
+
+		--index ;
+	}
+
+	rc = delete( p_L, p_data ) ;
+
+	return OK ;
 }

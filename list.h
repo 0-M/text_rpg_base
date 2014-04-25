@@ -34,7 +34,7 @@ extern status traverse( list L, status (*p_func_f) () );
 extern status find_key( list L, generic_ptr key, int (*p_cmp_f)(), list *p_keynode ) ;
 
 extern list list_iterator( list L, list lastreturn ) ;
-extern void destroy( list *p_L, void (*p_func_f)() );
+extern void destroy( list *p_L, void (*p_func_f)() ) ;
 
 /* 
  * Extension functions which allow access by index implemented by mwolf
@@ -54,5 +54,13 @@ extern status list_index( list L, size_t index, list *p_L ) ;
 extern status list_index_safe( list L, size_t index, list *p_L ) ;
 
 extern size_t list_length( list L ) ;
+
+extern status find_key_index(list L, generic_ptr key, int (*p_cmp_f)(), 
+			     size_t *index ) ;
+
+extern status delete_index( list *p_L, generic_ptr *p_data, size_t index ) ;
+
+
+
 
 #endif

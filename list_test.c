@@ -18,6 +18,13 @@ void fill_list(list *p_L, int32_t length ) ;
 
 status print_int_from_list( generic_ptr p_int32_t ) ;
 
+int cmp_int32_t( generic_ptr lhs, generic_ptr rhs ) ;
+
+int cmp_int32_t( generic_ptr lhs, generic_ptr rhs )
+{
+	return ( * ( int32_t * ) lhs ) - ( * ( int32_t * ) rhs ) ;
+}
+
 status print_int_from_list(generic_ptr p_int32_t )
 {
 	if( p_int32_t == NULL )
@@ -38,11 +45,16 @@ int main( int argc, char *argv[] )
 
 	list tempList = NULL;
 
-	int32_t list_size, node_to_print ;
+	int32_t list_size, node_to_print, index_to_find ;
 
-	if( argc != 3 )
+	size_t index_ret ;
+
+	status rc ;
+
+	if( argc < 2 )
 	{
-		printf("usage: %s <list_size> <node_to_print>\n", argv[0] ) ;
+		printf("usage: %s <list_size> <node_to_print> "
+		       "<index_to_find>\n", argv[0] ) ;
 	
 		return 0;
 	}
@@ -50,6 +62,8 @@ int main( int argc, char *argv[] )
 	list_size = atoi( argv[1] ) ;
 
 	node_to_print = atoi( argv[2] ) ;
+
+	index_to_find = atoi( argv[3] ) ;
 
 	if( node_to_print < 0 )
 	{
@@ -69,12 +83,34 @@ int main( int argc, char *argv[] )
 
 	printf("the list is %lu long\n", list_length( theList ) ) ;
 
+	if( argc == 2 ) return 0 ;
+
 	list_index( theList, (size_t) node_to_print, & tempList ) ;
 
 	printf("The %dth number in the list is %d\n", node_to_print, 
 	       * (int32_t *) DATA( tempList ) ) ;
 
-	       
+	if( argc == 3 ) return 0 ;
+
+	rc = find_key_index(theList, (generic_ptr ) &index_to_find, 
+			    cmp_int32_t, &index_ret ) ;
+
+	switch(rc)
+	{
+	case OK:
+		printf("found the index %lu from key %d\n", 
+		       index_ret, index_to_find ) ;
+		break;
+	
+	case ERROR:
+		printf( "no index found\n" ) ;
+		break;
+
+	default:
+		/* can't get here*/
+		printf("shouldn't reach default switch case\n");
+	}
+
 	return 0;
 }
 
