@@ -12,10 +12,12 @@
 
 #define MAX_INPUT_WORDS 10
 
-int upperString( char buffer[] ) ;
-int  getInput   ( int *item     ) ;
-int inputToWords( char *buffers[], int inputLength ) ;
+#define GODMODE_STRING "extra Godmode controls: add <entity, item >\n"
 
+int upperString( char buffer[] ) ;
+int inputToWords( char *buffers[], size_t inputLength ) ;
+
+int  getInput() ;
 
 int interfaceLoop()
 {
@@ -33,41 +35,57 @@ int interfaceLoop()
 	/* 6: talk                 */
 	/* 666: unrecognized input */
 	/*                         */
+	/* 1337: God mode          */
+	/* 1338: add               */
+	/*                         */
+	/*                         */
+	/*                         */
 	/***************************/
-
-	/*worldInit( mapString , &WORLD ) ; */
 
 	while ( ( inputCode = getInput(&itemCode) ) )
 	{
 		switch ( inputCode ) {
+
 		case 1:
 			printf( "GO FORWARD\n" ) ; /* TEMP */
 			break;
+
 		case 2:
 			printf( "GO BACKWARD\n" ) ;
 			break;
+
 		case 3:
 			printf( "GO LEFT\n" ) ;
 			break;
+
 		case 4:
 			printf( "GO RIGHT\n" ) ;
 			break;
+
 		case 5:
 			printf( "TAKING SOMETHING\n" ) ;
 			break;
+
 		case 6:
 			printf( "TALKING THE TALK\n" ) ;
 			break;
+
 		case 7:
 			printf( "SWAG TO THE #YOLO INFINITY\n" ) ;
 			break;
+
 		case 666:
 			printf("input not recognized\n");
 			break;
+
+
+		case 1337:
+			printf("God mode activated.\n" GODMODE_STRING );
+			break;
+
 		default:
 			printf("shouldnt have gotten here. "
 			       "default case line %d", __LINE__);
-			
 		}
 	}
 
@@ -77,7 +95,7 @@ int interfaceLoop()
 
 }
 
-int getInput( int *item )
+int getInput()
 {
 	int returnCode = -1 ;
 	int i;
@@ -85,8 +103,6 @@ int getInput( int *item )
 	size_t buffLength;
 	char *buffers[MAX_INPUT_WORDS] ;
 	
-	item = NULL ;
-
 	buffers[0] = malloc( sizeof (char) * BUFSIZ ) ;
 	if (buffers[0] == NULL) return -2;
 
@@ -160,39 +176,37 @@ int getInput( int *item )
 		/* TAKE */
 
 		if ( !(strncmp(buffers[1], "T", BUFSIZ))
-		  || !(strncmp(buffers[1], "TAKE", BUFSIZ)))
+		     || !(strncmp(buffers[1], "TAKE", BUFSIZ)))
 		{
 			returnCode = 5 ;
-
-		/* TALK */
-
-		} else if
-		   ( !(strncmp(buffers[1], "E", BUFSIZ))
-		  || !(strncmp(buffers[1], "TALK", BUFSIZ)))
+			
+			/* TALK */
+			
+		} else if( !(strncmp(buffers[1], "E", BUFSIZ))
+			   || !(strncmp(buffers[1], "TALK", BUFSIZ)))
 		{
 			returnCode = 6 ;
-
-		/* SWAG */
-
-		} else if
-		   (( !(strncmp(buffers[1], "SWAG", BUFSIZ))
-		  || !(strncmp(buffers[1], "BASED", BUFSIZ))
-		  || !(strncmp(buffers[1], "LIL", BUFSIZ)))
-		&& ((!(strncmp(buffers[2], "B", BUFSIZ))
-		  || !(strncmp(buffers[2], "GOD", BUFSIZ))
-		  || !(strncmp(buffers[2], "MONEY", BUFSIZ)))))
+			
+			/* SWAG */
+			
+		} else if(( !(strncmp(buffers[1], "SWAG", BUFSIZ))
+			    || !(strncmp(buffers[1], "BASED", BUFSIZ))
+			    || !(strncmp(buffers[1], "LIL", BUFSIZ)))
+			  && ((!(strncmp(buffers[2], "B", BUFSIZ))
+			       || !(strncmp(buffers[2], "GOD", BUFSIZ))
+			       || !(strncmp(buffers[2], "MONEY", BUFSIZ)))))
 		{
 			returnCode = 7 ;
-
-		/* UNRECOGNIZED INPUT */
-
+			
+			/* UNRECOGNIZED INPUT */
+			
 		} else {
 			returnCode = 666 ;
 		}
 	} else {
-
+		
 		/*0 or 3+ inputs*/
-
+		
 		returnCode = 666;
 	}
 
@@ -202,10 +216,12 @@ int getInput( int *item )
 	return returnCode ; 
 }
 
-int inputToWords( char *buffers[], int inputLength )
+int inputToWords( char *buffers[], size_t inputLength )
 {
-	int i, wordCount = 0, wordState = 0, letterCount = 0;
+	size_t i, wordState = 0, letterCount = 0;
 	char *input, *temp;
+
+	int wordCount = 0;
 
 	temp = malloc( sizeof ( int ) * BUFSIZ ) ;
 
