@@ -1,6 +1,17 @@
 #include <stdlib.h>
 #include <list.h>
+
+#define DATA( L ) ( ( L ) -> datap )
+#define NEXT( L ) ( ( L ) -> next  )
+#define PREV( L ) ( ( L ) -> prev  )
  
+struct node 
+{ 
+	generic_ptr datap ; 
+	list next ; 
+	list prev ;
+} ;
+
 status allocate_node( list *p_L, generic_ptr data ) {
 
 	list L = (list)malloc( sizeof( node ) ) ;
@@ -10,6 +21,7 @@ status allocate_node( list *p_L, generic_ptr data ) {
 	*p_L = L ;
 	DATA(L) = data ;
 	NEXT(L) = NULL ;
+	PREV(L) = NULL ;
 	return OK ;
 	
 }
@@ -40,6 +52,7 @@ status insert( list *p_L, generic_ptr data ) {
 	
 	if( allocate_node( &L, data ) == ERROR ) return ERROR ;
 	NEXT(L) = *p_L ;
+	PREV(L) = NULL ;
 	*p_L = L ;
 	return OK ;
 	
@@ -53,15 +66,20 @@ status append( list *p_L, generic_ptr data ) {
 	
 	if( empty_list( *p_L ) == TRUE ) *p_L = L ;
 	else {
-		for( tmplist = *p_L ; NEXT(tmplist) != NULL ; tmplist = NEXT(tmplist) ) ;
+		for( tmplist = *p_L ; 
+		     NEXT(tmplist) != NULL ; 
+		     tmplist = NEXT(tmplist) ) ;
+
 		NEXT(tmplist) = L ;
+		PREV(L) = tmplist ;
 	}
 	
 	return OK ;
 	
 }
 
-status delete( list *p_L, generic_ptr *p_data ) {
+status delete( list *p_L, generic_ptr *p_data ) 
+{
 	
 	if( empty_list( *p_L ) ) return ERROR ;
 	
@@ -223,7 +241,7 @@ extern status find_key_index(list L, generic_ptr key, int (*p_cmp_f)(),
 
 status delete_by_index( list *p_L, generic_ptr *p_data, size_t index )
 {
-	list curr = list_iterator( *p_L, NULL ) ;
+	list front = *p_L;
 
 	status rc ;
 
@@ -231,12 +249,26 @@ status delete_by_index( list *p_L, generic_ptr *p_data, size_t index )
 
 	while( index > 0 )
 	{
-		curr = list_iterator( *p_L, curr ) ;
+		*p_L = NEXT( *p_L ) ;
 
 		--index ;
 	}
 
 	rc = delete( p_L, p_data ) ;
 
+	if( rc == ERROR ) return ERROR ;
+
+	
+
+	*p_L = front ;
+
 	return OK ;
+}
+
+generic_ptr data( list L ) 
+{
+	if( L == NULL ) return NULL ;
+
+	return DATA( L ) ;
+
 }
