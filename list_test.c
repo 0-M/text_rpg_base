@@ -88,7 +88,7 @@ int main( int argc, char *argv[] )
 	list_index( theList, (size_t) node_to_print, & tempList ) ;
 
 	printf("The %dth number in the list is %d\n", node_to_print, 
-	       * (int32_t *) DATA( tempList ) ) ;
+	       * ( (int32_t *) data( tempList ) ) ) ;
 
 	if( argc == 3 ) return 0 ;
 

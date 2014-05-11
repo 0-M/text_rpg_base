@@ -30,17 +30,17 @@ struct world_s {
 	short initFlag;
 } ; 
 
-#define NUMNPCS(w)    (w->numEntities)
-#define NUMPLAYERS(w) (w->numPlayers)
-#define NUMITEMS(w)   (w->numItems)
-#define NUMMAPS(w)    (w->numMaps)
+#define NUMNPCS(w)    ( ( w ) -> numEntities )
+#define NUMPLAYERS(w) ( ( w ) -> numPlayers  )
+#define NUMITEMS(w)   ( ( w ) -> numItems    )
+#define NUMMAPS(w)    ( ( w ) -> numMaps     )
 
-#define MAPL(w)    (w->mapList)
-#define ITEML(w)   (w->itemList)
-#define NPCL(w)    (w->entList)
-#define PLAYERL(w) (w->playerList)
+#define MAPL(w)    ( ( w ) ->    mapList )
+#define ITEML(w)   ( ( w ) ->   itemList )
+#define NPCL(w)    ( ( w ) ->    entList )
+#define PLAYERL(w) ( ( w ) -> playerList )
 
-#define INITFLAG(w) (w->initFlag)
+#define INITFLAG(w) ( ( w ) -> initFlag )
 
 status worldInit( world *w )
 {
@@ -77,10 +77,10 @@ status worldZero( world w )
 		return ERROR;
 	}
 
-	NUMNPCS    (w) = 0 ;
-	NUMMAPS    (w) = 0 ;
-	NUMPLAYERS (w) = 0 ;
-	NUMITEMS   (w) = 0 ;
+	NUMNPCS    ( w ) = 0 ;
+	NUMMAPS    ( w ) = 0 ;
+	NUMPLAYERS ( w ) = 0 ;
+	NUMITEMS   ( w ) = 0 ;
 
 	init_list( & MAPL    ( w ) ) ;
 	init_list( & NPCL    ( w ) ) ;
@@ -234,7 +234,6 @@ status worldAddMap(world w, map m )
 
 status worldDeleteMap(world w, map m ) 
 {
-	list L = NULL;
 	map tempMap = NULL;
 
 	size_t key;
@@ -257,9 +256,9 @@ status worldDeleteMap(world w, map m )
 		return ERROR;
 	}
 
-	delete_index( MAPL(w), &tempMap, key ) ;
+	rc = delete_by_index( & MAPL( w ), (generic_ptr *) &tempMap, key ) ;
 
-	return delete( & L, (generic_ptr *) &tempMap ) ;
+	return OK ;
 }
 
 extern status worldDeleteMapContents(world w, map m )

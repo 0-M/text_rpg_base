@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <list.h>
 
+/* FIXME: FINISH IMPLEMENTATION OF DOUBLY LINKED LIST */
+
 #define DATA( L ) ( ( L ) -> datap )
 #define NEXT( L ) ( ( L ) -> next  )
 #define PREV( L ) ( ( L ) -> prev  )
